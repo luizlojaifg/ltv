@@ -44,6 +44,28 @@ class ShortUrl < ApplicationRecord
     return id.to_s(36)
   end
 
+  #This method get url by his short code
+  def self.get_url_by_short_code short_code
+    short_url = ShortUrl.all.find {|x| x.short_code == short_code}
+
+    if short_url.nil?
+      raise ActionController::RoutingError.new('Url not Found')
+    end
+
+    return  short_url
+  end
+
+  #I did this method because in the future we may need this method
+  # without incrementing the link
+  # #
+
+  def self.get_url_by_short_code_increment short_code
+    short_url = get_url_by_short_code short_code
+    short_url.click_count += 1
+    short_url.save
+    return short_url
+  end
+
   def update_title!
   end
 

@@ -23,6 +23,14 @@ class ShortUrlsController < ApplicationController
   end
 
   def show
+    begin
+      @short_url = ShortUrl.get_url_by_short_code_increment(params[:id])
+      redirect_to @short_url.full_url
+    rescue Exception => e
+      redirect_to "404.html", :status => 404
+    end
+
+
   end
 
 end
