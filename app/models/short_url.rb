@@ -36,9 +36,8 @@ class ShortUrl < ApplicationRecord
         number_to_encode = (number_to_encode/base_to_code).to_i
       end
 
-      encoded_string.reverse
 
-      return encoded_string
+      return encoded_string.reverse
     else
       return nil
     end
