@@ -18,7 +18,6 @@ RSpec.describe ShortUrlsController, type: :controller do
 
       #expect(parsed_response['urls']).to be_include(short_url.public_attributes)
       # I think there is no more public_atrributes on rails
-      p parsed_response['urls']
       #expect(parsed_response['urls']).to be_include(short_url.public_attributes)
       expect(parsed_response['urls']).to be_a(Array)
     end
