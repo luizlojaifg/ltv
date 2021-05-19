@@ -6,8 +6,11 @@ RSpec.describe UpdateTitleJob, type: :job do
   let(:short_url) { ShortUrl.create(full_url: "https://www.beenverified.com/faq/") }
 
   it "updates the title" do
+
     expect(short_url.title).to be_nil
-    UpdateTitleJob.perform_later(short_url.id)
+    UpdateTitleJob.perform_now(short_url.id)
+    #Change this test method because it seems that it has a internal problem
+    #UpdateTitleJob.perform_later(short_url.id)
     perform_enqueued_jobs(only: UpdateTitleJob)
     short_url.reload
     expect(short_url.title).to eq("Frequently Asked Questions | BeenVerified")
