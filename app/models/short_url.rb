@@ -13,8 +13,9 @@ class ShortUrl < ApplicationRecord
   after_create :update_url_title
 
 
-  # This method create a short_url record if it doesnt exists
-  #  or select one wit it exists
+  # This method create a short_url record. If short_url already exists
+  # the algorithm select such record
+  # @return always return a <tt>ShortURL</tt>
   # #
   def self.create_or_select_with_full_url full_url
 
@@ -25,7 +26,8 @@ class ShortUrl < ApplicationRecord
     return short_url
   end
 
-  # This method get the
+  # This method get top 100 most frequently accessed shortcodes.
+  # @return an array of the top 100 frequently accessed shortcodes.
   # #
   def self.top_100_urls_short_code
     return top_100_urls.collect(&:short_code)
@@ -35,7 +37,6 @@ class ShortUrl < ApplicationRecord
   # The algorithm convert the id number to base 62 to minimize it
   # @return nil if the id is nil or the url short_code:string
   #
-
   def short_code
     unless id.nil?
       base_to_code = CHARACTERS.size
@@ -77,9 +78,11 @@ class ShortUrl < ApplicationRecord
 
   #I did this method because in the future we may need this method
   # without incrementing the link
+  # @param short_code it is a string that contains one short_code that exists in the table
   # #
 
   def self.get_url_by_short_code_increment short_code
+
     short_url = find_by_short_code short_code
     short_url.click_count += 1
     short_url.save
