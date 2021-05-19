@@ -1,6 +1,6 @@
 class JobUpdateTitle < ApplicationRecord
 
-  @queue = :update_server
+  @queue = :UpdateTitleJob
 
   def self.perform(short_url)
     short_url.update_title!

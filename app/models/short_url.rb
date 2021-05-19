@@ -74,7 +74,7 @@ class ShortUrl < ApplicationRecord
   def update_title!
     uri_requested = URI(self.full_url)
     result = Net::HTTP.get_response(uri_requested)
-    title = JSON.parse(result.body)["title"]
+    title = result.body.scan(/<title>(.*?)<\/title>/).flatten.first
     self.title = title
     self.save
   end
