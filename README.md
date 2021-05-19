@@ -33,14 +33,12 @@
 
 #Algorithm used to shorten url
 
-    The algorithm that was used to encode the url is simple it takes the recod's id and convert it 
-    to the 62 base using the array of CHARACTERS fomented by the ShorUrl class
-    To do this the algorithm takes the id number and look over the rest of this number out of 62
-    This value will be used to discover witch caracter must be used convert that number in 62 base 
+    The algorithm that was used to encode the url is simple. It takes the recod's id and convert it 
+    to the 62 base using the array of CHARACTERS fomented by the ShortUrl class.
+    The program  takes the id number and look over the rest of this number out of 62
+    This value will be used to discover witch caracter must be used to convert that number into 62 base. 
     The value is divided by 62 and the loops restart, finally the string is reversed. 
     The reversion is needed because the algorithm firsts identify the last digits of the new identifier
     
-    I also created the method really_simple_short_code that uses ruby method to encode the id in 32 base
-    , nonethe less I thought that you would like to see a code that uses the constant CHARATERS that was in
-    the class   
+       
         
