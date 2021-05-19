@@ -26,18 +26,22 @@ class ShortUrl < ApplicationRecord
   end
 
   def short_code
-    base_to_code = CHARACTERS.size
+    unless id.nil?
+      base_to_code = CHARACTERS.size
 
-    number_to_encode = self.id
-    encoded_string = ""
-    while number_to_encode > 0
-      encoded_string << CHARACTERS[number_to_encode.modulo(base_to_code)]
-      number_to_encode = (number_to_encode/base_to_code).to_i
+      number_to_encode = self.id
+      encoded_string = ""
+      while number_to_encode > 0
+        encoded_string << CHARACTERS[number_to_encode.modulo(base_to_code)]
+        number_to_encode = (number_to_encode/base_to_code).to_i
+      end
+
+      encoded_string.reverse
+
+      return encoded_string
+    else
+      return nil
     end
-
-    encoded_string.reverse
-
-    return encoded_string
   end
 
   def really_simple_short_code
@@ -45,7 +49,8 @@ class ShortUrl < ApplicationRecord
   end
 
   #This method get url by his short code
-  def self.get_url_by_short_code short_code
+  def self.find_by_short_code short_code
+
     short_url = ShortUrl.all.find {|x| x.short_code == short_code}
 
     if short_url.nil?
@@ -60,13 +65,19 @@ class ShortUrl < ApplicationRecord
   # #
 
   def self.get_url_by_short_code_increment short_code
-    short_url = get_url_by_short_code short_code
+    short_url = find_by_short_code short_code
     short_url.click_count += 1
     short_url.save
     return short_url
   end
 
+  #This method update the title of the url
   def update_title!
+    uri_requested = URI(self.full_url)
+    result = Net::HTTP.get_response(uri_requested)
+    title = JSON.parse(result.body)["title"]
+    self.title = title
+    self.save
   end
 
   private
@@ -74,7 +85,7 @@ class ShortUrl < ApplicationRecord
   #This method will run a job to get the page's title after and save it
   # after create the shorten url
   def update_url_title
-
+    Resque.enqueue(JobUpdateTitle, self)
   end
 
   #This code may validate the full url.
@@ -82,10 +93,21 @@ class ShortUrl < ApplicationRecord
   def validate_full_url
 
     #Validates if the url is valid
-    unless full_url =~ URI::regexp
+    begin
+      full_url_parser = URI.parse(full_url)
+
+      unless full_url_parser.is_a? URI::HTTP
+        errors.add(:full_url,"is not a valid url")
+        errors.add(:base,"Full url is not a valid url")
+        return false
+      end
+
+    rescue
+      errors.add(:full_url,"is not a valid url")
       errors.add(:base,"Full url is not a valid url")
       return false
     end
+
 
     #if there are other validations I can put above that one returning false
 
