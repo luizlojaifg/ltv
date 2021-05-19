@@ -61,7 +61,7 @@ class ShortUrl < ApplicationRecord
 
     #Validates if the url is valid
     unless full_url =~ URI::regexp
-      errors.add(:full_url, "The full url is not valid.")
+      errors.add(:base,"Full url is not a valid url")
       return false
     end
 

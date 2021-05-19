@@ -16,7 +16,7 @@ class ShortUrlsController < ApplicationController
       unless @short_url.new_record?
         format.json { render :json => {short_code: @short_url.short_code }}
       else
-        format.json { render :json => {errors: @short_url.errors }}
+        format.json { render :json => {errors: @short_url.errors.values.flatten }}
       end
 
     end
