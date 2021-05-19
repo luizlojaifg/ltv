@@ -7,6 +7,7 @@ class ShortUrlsController < ApplicationController
   end
 
   def create
+    puts params[:id]
   end
 
   def show
