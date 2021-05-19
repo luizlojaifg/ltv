@@ -84,7 +84,7 @@ class ShortUrl < ApplicationRecord
   #This method will run a job to get the page's title after and save it
   # after create the shorten url
   def update_url_title
-    Resque.enqueue(JobUpdateTitle, self)
+    Resque.enqueue(UpdateTitleJob, self.id)
   end
 
   #This code may validate the full url.
