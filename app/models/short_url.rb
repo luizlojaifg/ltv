@@ -28,7 +28,7 @@ class ShortUrl < ApplicationRecord
   # This method get the
   # #
   def self.top_100_urls_short_code
-    return top_100_urls.collect {|short_url| short_url.short_code}
+    return top_100_urls.collect(&:short_code)
   end
 
   # Create a short_code from the short_url id
