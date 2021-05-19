@@ -14,7 +14,7 @@ class ShortUrlsController < ApplicationController
   end
 
   ##
-  # Create or Find a short_code for a url
+  # Receive a full_url and create or find a short_code for the full_url
   # if the url is valid it returns a json with the short_code
   # if the url is invalid it returns a json with the error
   #  Valid Url
@@ -34,8 +34,9 @@ class ShortUrlsController < ApplicationController
     end
   end
 
-
-
+  # Receive a short code url and redirect the user to the full url
+  # if the url doesn't exist the method will redirect the user to a 404 page
+  #
   def show
     begin
       @short_url = ShortUrl.get_url_by_short_code_increment(params[:id])
@@ -43,7 +44,6 @@ class ShortUrlsController < ApplicationController
     rescue Exception => e
       redirect_to "404.html", :status => 404
     end
-
 
   end
 

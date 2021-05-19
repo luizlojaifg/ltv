@@ -9,7 +9,7 @@ class ShortUrl < ApplicationRecord
 
   scope :top_100_urls, -> { order("click_count desc").limit(100) }
 
-
+  #update the title after create the short_url
   after_create :update_url_title
 
 
@@ -48,7 +48,6 @@ class ShortUrl < ApplicationRecord
         number_to_encode = (number_to_encode/base_to_code).to_i
       end
 
-
       return encoded_string.reverse
     else
       return nil
@@ -64,7 +63,12 @@ class ShortUrl < ApplicationRecord
     return id.to_s(36) unless id.nil?
   end
 
-  #This method get url by his short code
+  #I implemented this method because in the future we may need this method
+  # without incrementing the link
+
+  # Receive a <tt>short_code</tt> and return his <tt>short_url</tt>
+  # @param short_code it is a string that contains one short_code that exists in the table
+  # @return short_url found by the short_code
   def self.find_by_short_code short_code
 
     short_url = ShortUrl.all.find {|x| x.short_code == short_code}
@@ -76,11 +80,12 @@ class ShortUrl < ApplicationRecord
     return  short_url
   end
 
-  #I did this method because in the future we may need this method
-  # without incrementing the link
-  # @param short_code it is a string that contains one short_code that exists in the table
-  # #
 
+  # Receive a <tt>short_code</tt> and return the <tt>short_url</tt>
+  # besides it increment in one the click count of the <tt>short_url</tt>
+  # @param short_code it is a string that contains one short_code that exists in the table
+  # @return short_url found by the short_code
+  # #
   def self.get_url_by_short_code_increment short_code
 
     short_url = find_by_short_code short_code
@@ -124,7 +129,6 @@ class ShortUrl < ApplicationRecord
       errors.add(:base,"Full url is not a valid url")
       return false
     end
-
 
     #if there are other validations I can put above that one returning false
 
