@@ -12,6 +12,10 @@ class ShortUrl < ApplicationRecord
 
   after_create :update_url_title
 
+
+  # This method create a short_url record if it doesnt exists
+  #  or select one wit it exists
+  # #
   def self.create_or_select_with_full_url full_url
 
     short_url = ShortUrl.where("full_url=?",full_url).first
@@ -21,9 +25,16 @@ class ShortUrl < ApplicationRecord
     return short_url
   end
 
+  # This method get the
+  # #
   def self.top_100_urls_short_code
     return top_100_urls.collect {|short_url| short_url.short_code}
   end
+
+  # Create a short_code from the short_url id
+  # The algorithm convert the id number to base 62 to minimize it
+  # @return nil if the id is nil or the url short_code:string
+  #
 
   def short_code
     unless id.nil?
@@ -43,8 +54,13 @@ class ShortUrl < ApplicationRecord
     end
   end
 
+  # This is an alternative to generate the short code
+  # Nevertheless I used CHARACTERS because it was there
+  # This method is not used in this program
+  # @return nil if the id is nil or the url short_code
+  # #
   def really_simple_short_code
-    return id.to_s(36)
+    return id.to_s(36) unless id.nil?
   end
 
   #This method get url by his short code
@@ -70,7 +86,7 @@ class ShortUrl < ApplicationRecord
     return short_url
   end
 
-  #This method update the title of the url
+  #Update the title of the url
   def update_title!
     uri_requested = URI(self.full_url)
     result = Net::HTTP.get_response(uri_requested)
@@ -96,12 +112,11 @@ class ShortUrl < ApplicationRecord
       full_url_parser = URI.parse(full_url)
 
       unless full_url_parser.is_a? URI::HTTP
-        errors.add(:full_url,"is not a valid url")
-        errors.add(:base,"Full url is not a valid url")
-        return false
+        raise Exception.new
       end
 
-    rescue
+    rescue Exception =>e
+      #This was necessary comply with tests
       errors.add(:full_url,"is not a valid url")
       errors.add(:base,"Full url is not a valid url")
       return false
