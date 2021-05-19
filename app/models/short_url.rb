@@ -2,9 +2,28 @@ class ShortUrl < ApplicationRecord
 
   CHARACTERS = [*'0'..'9', *'a'..'z', *'A'..'Z'].freeze
 
+  #It must be unique because we dont need equal urls in the database
+  validates :full_url , presence: true
+
   validate :validate_full_url
 
+  scope :top_100_urls, -> { order("click_count desc").limit(100) }
+
+
   after_create :update_url_title
+
+  def self.create_or_select_with_full_url full_url
+
+    short_url = ShortUrl.where("full_url=?",full_url).first
+    unless short_url
+      short_url = ShortUrl.create(full_url: full_url)
+    end
+    return short_url
+  end
+
+  def self.top_100_urls_short_code
+    return top_100_urls.collect {|short_url| short_url.short_code}
+  end
 
   def short_code
     base_to_code = CHARACTERS.size
@@ -39,15 +58,16 @@ class ShortUrl < ApplicationRecord
   #This code may validate the full url.
   # if it isnt valid the software must not save the url
   def validate_full_url
-    #I could use the code return full_url =~ URI::regexp, nevertheless
-    # I think it would be complicate to some developers to understand 0 for true and nil for false
-    # So I decide the code with tradicional if
-    if full_url =~ URI::regexp
-      return true
-    else
+
+    #Validates if the url is valid
+    unless full_url =~ URI::regexp
       errors.add(:full_url, "The full url is not valid.")
       return false
     end
+
+    #if there are other validations I can put above that one returning false
+
+    return true
   end
 
 end

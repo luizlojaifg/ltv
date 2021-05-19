@@ -4,10 +4,22 @@ class ShortUrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    respond_to do |format|
+      format.json { render :json => {urls: ShortUrl.top_100_urls_short_code} }
+    end
   end
 
   def create
-    puts params[:id]
+    full_url = params[:full_url]
+    @short_url = ShortUrl.create_or_select_with_full_url full_url
+    respond_to do |format|
+      unless @short_url.new_record?
+        format.json { render :json => {short_code: @short_url.short_code }}
+      else
+        format.json { render :json => {errors: @short_url.errors }}
+      end
+
+    end
   end
 
   def show
