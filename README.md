@@ -38,7 +38,3 @@
     The program  takes the id number and look over the rest of this number out of 62
     This value will be used to discover witch caracter must be used to convert that number into 62 base. 
     The value is divided by 62 and the loops restart, finally the string is reversed. 
-    The reversion is needed because the algorithm firsts identify the last digits of the new identifier
-    
-       
-        
