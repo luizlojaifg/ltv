@@ -22,6 +22,11 @@ class ShortUrl < ApplicationRecord
     short_url
   end
 
+  #Return the short_code from the full_url.
+  def public_attributes
+    short_code
+  end
+
   # This method get top 100 most frequently accessed shortcodes.
   # @return an array of the top 100 frequently accessed shortcodes.
   def self.top_100_urls_short_code
