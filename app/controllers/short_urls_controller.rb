@@ -32,13 +32,19 @@ class ShortUrlsController < ApplicationController
     end
   end
 
+  def public_attributes
+
+  end
+
   # Receive a short code url and redirect the user to the full url
   # if the url doesn't exist the method will redirect the user to a 404 page
   #
   def show
     @short_url = ShortUrl.get_url_by_short_code_increment(params[:id])
-    redirect_to @short_url.full_url
-  rescue Exception => e
-    redirect_to '404.html', status: 404
+    if @short_url
+      redirect_to @short_url.full_url
+    else
+      redirect_to '404.html', status: 404
+    end
   end
 end
