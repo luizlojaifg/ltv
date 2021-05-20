@@ -22,6 +22,11 @@ class ShortUrl < ApplicationRecord
     short_url
   end
 
+  #Return the short_code from the full_url.
+  def public_attributes
+    short_code
+  end
+
   # This method get top 100 most frequently accessed shortcodes.
   # @return an array of the top 100 frequently accessed shortcodes.
   def self.top_100_urls_short_code
@@ -56,8 +61,6 @@ class ShortUrl < ApplicationRecord
   def self.find_by_short_code(short_code)
     short_url = ShortUrl.all.find { |x| x.short_code == short_code }
 
-    raise ActionController::RoutingError, 'Url not Found' if short_url.nil?
-
     short_url
   end
 
@@ -67,8 +70,12 @@ class ShortUrl < ApplicationRecord
   # @return short_url found by the short_code
   def self.get_url_by_short_code_increment(short_code)
     short_url = find_by_short_code short_code
+
+    return nil unless short_url
+
     short_url.click_count += 1
     short_url.save
+
     short_url
   end
 
@@ -97,6 +104,7 @@ class ShortUrl < ApplicationRecord
       full_url_parser = URI.parse(full_url)
 
       raise Exception unless full_url_parser.is_a? URI::HTTP
+
     rescue Exception => e
       # This was necessary comply with tests
       errors.add(:full_url, 'is not a valid url')
