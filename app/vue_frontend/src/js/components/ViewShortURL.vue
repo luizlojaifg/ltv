@@ -2,7 +2,12 @@
   <div class="row items-center" style="padding: 2%"  >
     <div class="col-md-2" > </div>
     <div class="col-xs-12 col-sm-6 col-md-4" style="order: 2">
+      <div >
+        <img src="img/ltvLogo.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 150px; height: 150px; border: solid 1px; border-radius: 900px; position: relative; top: 20px; z-index: 1000" alt="">
+      </div>
+
       <q-card class="my-card bg-primary text-white" style="margin-bottom: 10px" >
+
         <q-card-section>
           <div class="text-h3" style="text-align: center" >Short URL with Ltv</div>
           <div class="text-subtitle2" style="text-align: center">Make your url shorter and be Happy!</div>
@@ -10,11 +15,6 @@
 
         <q-card-section>
           <q-input bottom-slots v-model="url" label="Write your URL right below and click in the check on the right!" counter dark>
-            <template v-slot:before>
-              <q-avatar>
-                <img src="img/ltvLogo.jpg">
-              </q-avatar>
-            </template>
 
             <template v-slot:append>
               <q-icon v-if="url !== ''" name="close" @click="url = ''" class="cursor-pointer" />
