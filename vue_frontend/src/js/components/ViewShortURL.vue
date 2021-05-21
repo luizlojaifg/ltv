@@ -14,7 +14,7 @@
         </q-card-section>
 
         <q-card-section>
-          <q-input bottom-slots v-model="url" label="Write your URL right below and click in the check on the right!" counter dark>
+          <q-input bottom-slots v-model="url" label="Write your Full URL right below and click in the check on the right!" counter dark>
 
             <template v-slot:append>
               <q-icon v-if="url !== ''" name="close" @click="url = ''" class="cursor-pointer" />
@@ -138,17 +138,21 @@ export default{
 
         }else{
           this.url = ""
-
-          this.$q.notify({
-            message: `The URL is invalid!`,
-            caption: `Please, try another one!`,
-            multiLine: true,
-            progress: true,
-            timeout: 2000,
-            position: "top",
-            type: 'negative',
-            avatar: 'img/ltvLogo.jpg'
+          res["data"]["errors"].forEach(item =>{
+            this.$q.notify({
+              message: item,
+              caption: `Please, try another URL!`,
+              multiLine: true,
+              progress: true,
+              timeout: 2000,
+              position: "top",
+              type: 'negative',
+              avatar: 'img/ltvLogo.jpg'
+            })
           })
+
+
+
 
         }
 
