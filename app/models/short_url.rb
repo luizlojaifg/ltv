@@ -105,7 +105,6 @@ class ShortUrl < ApplicationRecord
   # This code may validate the full url.
   # if it isnt valid the software must not save the url
   def validate_full_url
-    Rails.logger.info "Cheguei aqui"
     # Validates if the url is valid
     begin
       full_url_parser = URI.parse(full_url)
