@@ -31,12 +31,12 @@
 
     curl -I localhost:3000/abc
     
-#Interface 
+# Interface 
     In app/vue_frontend run yarn install to install node_modules
     To run the program run yarn watch 
     The interface can be accessed through vue/index.html    
 
-#Algorithm used to shorten url
+# Algorithm used to shorten url
 
     The algorithm that was used to encode the url is simple. It takes the recod's id and convert it 
     to the 62 base using the array of CHARACTERS fomented by the ShortUrl class.
