@@ -72,7 +72,7 @@ export default{
       data:[],
       nextPage:0,
       loading: false,
-      url:"http://www.google.com.br",
+      url:"",
       progress: false,
       pagination: {
         rowsPerPage: 0
