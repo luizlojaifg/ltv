@@ -78,9 +78,9 @@ export default{
         rowsPerPage: 0
       },
       columns: [
-        {name: 'title',label: 'Title',align: 'left', field: 'title'},
         { name: 'full_url', align: 'center', label: 'Full URL', field: 'full_url', sortable: true },
         { name: 'short_code', align: 'center', label: 'Short URL', field: 'short_code', sortable: true,  format: (val, row) => `http://${location.host}/${val}` },
+        { name: 'compress_rate', align: 'center', label: 'Compress Rate', field: 'compress_rate', sortable: true,  format: (val, row) => `${Math.round(val*100)}%` },
         { name: 'click_count', align: 'center', label: 'Times Accessed', field: 'click_count', sortable: true },
         { name: 'updated_at', align: 'center', label: 'Last Time Accessed', field: 'updated_at', sortable: true,  format: (val, row) => this.moment(val ,"YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD HH:mm:ss') }
       ]

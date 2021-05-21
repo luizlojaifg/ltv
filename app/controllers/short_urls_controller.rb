@@ -16,7 +16,7 @@ class ShortUrlsController < ApplicationController
   # @return {url:['as1x','bc2x','4','xx']}
   def index
     respond_to do |format|
-      format.json { render json: { urls: JSON.parse(ShortUrl.top_100_urls_short_code.to_json(except:[:created_at,:id], methods:[:short_code])) } }
+      format.json { render json: { urls: JSON.parse(ShortUrl.top_100_urls_short_code.to_json(except:[:created_at,:id], methods:[:compress_rate,:short_code])) } }
     end
   end
 
