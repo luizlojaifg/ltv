@@ -32,3 +32,4 @@ yarn-debug.log*
 
 /config/master.key
 tmp/cache/bootsnap-compile-cache/01/6f9cd9354807de
+*.log

@@ -32,7 +32,7 @@
     curl -I localhost:3000/abc
     
 #Interface 
-    In app/vue_frontend run yarn install to install node_modules
+    In rails/vue_frontend run yarn install to install node_modules
     To run the program run yarn watch 
     The interface can be accessed through vue/index.html    
 
