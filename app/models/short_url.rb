@@ -24,7 +24,7 @@ class ShortUrl < ApplicationRecord
 
   #Return the short_code from the full_url.
   def public_attributes
-    short_code
+    JSON.parse(self.to_json(except:[:created_at,:id], methods:[:short_code]))
   end
 
   # This method get top 100 most frequently accessed shortcodes.
