@@ -30,6 +30,11 @@
 # Checking your short URL redirect
 
     curl -I localhost:3000/abc
+    
+#Interface 
+    In app/vue_frontend run yarn install to install node_modules
+    To run the program run yarn watch 
+    The interface can be accessed through vue/index.html    
 
 #Algorithm used to shorten url
 
@@ -37,4 +42,6 @@
     to the 62 base using the array of CHARACTERS fomented by the ShortUrl class.
     The program  takes the id number and look over the rest of this number out of 62
     This value will be used to discover witch caracter must be used to convert that number into 62 base. 
-    The value is divided by 62 and the loops restart, finally the string is reversed. 
+    The value is divided by 62 and the loops restart, finally the string is reversed.
+    
+ 
