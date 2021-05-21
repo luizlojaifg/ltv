@@ -93,12 +93,14 @@ class ShortUrl < ApplicationRecord
   # This method will run a job to get the page's title after and save it
   # after create the shorten url
   def update_url_title
+    Rails.logger.info "Coloquei na fila"
     Resque.enqueue(UpdateTitleJob, id)
   end
 
   # This code may validate the full url.
   # if it isnt valid the software must not save the url
   def validate_full_url
+    Rails.logger.info "Cheguei aqui"
     # Validates if the url is valid
     begin
       full_url_parser = URI.parse(full_url)
