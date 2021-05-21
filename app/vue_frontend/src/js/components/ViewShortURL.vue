@@ -2,7 +2,7 @@
   <div class="row items-center" style="padding: 2%"  >
     <div class="col-md-2" > </div>
     <div class="col-xs-12 col-sm-6 col-md-4" style="order: 2">
-      <q-card class="my-card bg-primary text-white" >
+      <q-card class="my-card bg-primary text-white" style="margin-bottom: 10px" >
         <q-card-section>
           <div class="text-h3" style="text-align: center" >Short URL with Ltv</div>
           <div class="text-subtitle2" style="text-align: center">Make your url shorter and be Happy!</div>
@@ -45,26 +45,22 @@
         </q-card-actions>
       </q-card>
 
-      <div class="q-pa-md">
+
         <q-table
             class="my-sticky-dynamic"
-            title="Ltv's  100 most accessed Urls."
+            title="Ltv's 100 most accessed Urls."
             :data="data"
             :columns="columns"
             :loading="loading"
-            row-key="index"
-            virtual-scroll
-            :virtual-scroll-item-size="48"
-            :virtual-scroll-sticky-size-start="48"
-            :pagination="pagination"
-            :rows-per-page-options="[0]"
-            @virtual-scroll="onScroll"
+            row-key="short_code"
         />
-      </div>
+
 
 
     </div>
-    <div class="col-md-2"> </div>
+    <div class="col-md-2">
+
+    </div>
   </div>
 </template>
 
@@ -73,32 +69,57 @@ export default{
   name:"ViewLogin",
   data(){
     return {
+      data:[],
       nextPage:0,
       loading: false,
       url:"http://www.google.com.br",
       progress: false,
       pagination: {
-        rowsPerPage: 0,
-        rowsNumber: data.length
+        rowsPerPage: 0
       },
       columns: [
-        {name: 'name',label: 'Title',align: 'left'},
-        { name: 'calories', align: 'center', label: 'Full URL', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Short URL', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Times Accessed', field: 'carbs' }
-      ],
-      data:[]
+        {name: 'title',label: 'Title',align: 'left', field: 'title'},
+        { name: 'full_url', align: 'center', label: 'Full URL', field: 'full_url', sortable: true },
+        { name: 'short_code', align: 'center', label: 'Short URL', field: 'short_code', sortable: true,  format: (val, row) => `http://${location.host}/${val}` },
+        { name: 'click_count', align: 'center', label: 'Times Accessed', field: 'click_count', sortable: true },
+        { name: 'updated_at', align: 'center', label: 'Last Time Accessed', field: 'updated_at', sortable: true,  format: (val, row) => this.moment(val ,"YYYY-MM-DD HH:mm:ss").format('YYYY-MM-DD HH:mm:ss') }
+      ]
+
     }
   },
+  mounted(){
+    this.onRequest({
+    })
+  },
   methods: {
+    onRequest (props) {
+      this.loading = true
+
+      this.$http.get(`/short_urls.json`,{
+        params:{
+        }
+      }).then(res => {
+        this.data =  res.data["urls"]
+
+        this.loading = false
+      })
+
+    },
     makeUrlShorter(){
       this.progress = true
+
       this.$http.post('/short_urls.json',{
+
           full_url:this.url
+
       }).then(res => {
         this.progress = false
+
         if(res["data"]["short_code"]){
+
           let shortCode = res["data"]["short_code"]
+
+          this.onRequest({})
 
           this.$q.notify({
             message: `Here is your super Shorter URL!`,
@@ -117,6 +138,7 @@ export default{
 
         }else{
           this.url = ""
+
           this.$q.notify({
             message: `The URL is invalid!`,
             caption: `Please, try another one!`,
@@ -127,25 +149,11 @@ export default{
             type: 'negative',
             avatar: 'img/ltvLogo.jpg'
           })
+
         }
 
       })
 
-    },
-    onScroll ({ to, ref }) {
-      const lastIndex = this.data.length - 1
-
-      if (this.loading !== true && this.nextPage < lastPage && to === lastIndex) {
-        this.loading = true
-
-        setTimeout(() => {
-          this.nextPage++
-          this.$nextTick(() => {
-            ref.refresh()
-            this.loading = false
-          })
-        }, 500)
-      }
     }
   }
 }
