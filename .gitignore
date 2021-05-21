@@ -14,7 +14,7 @@
 !/tmp/.keep
 
 /node_modules
-/app/vue_frontend/node_modules
+/vue_frontend/node_modules
 /yarn-error.log
 
 .byebug_history
