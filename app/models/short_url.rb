@@ -30,7 +30,7 @@ class ShortUrl < ApplicationRecord
   # This method get top 100 most frequently accessed shortcodes.
   # @return an array of the top 100 frequently accessed shortcodes.
   def self.top_100_urls_short_code
-    top_100_urls.collect(&:short_code)
+    top_100_urls
   end
 
   # Create a short_code from the short_url id
