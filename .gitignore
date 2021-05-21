@@ -14,7 +14,7 @@
 !/tmp/.keep
 
 /node_modules
-/app/vue_frontend/node_modules
+/vue_frontend/node_modules
 /yarn-error.log
 
 .byebug_history
@@ -32,3 +32,4 @@ yarn-debug.log*
 
 /config/master.key
 tmp/cache/bootsnap-compile-cache/01/6f9cd9354807de
+*.log
