@@ -22,6 +22,11 @@ class ShortUrl < ApplicationRecord
     short_url
   end
 
+  #Calculate how much the url had shrinked
+  def compress_rate
+    ((full_url.length.to_f-(short_code.length.to_f + 15 ))/full_url.length.to_f).round(2)
+  end
+
   #Return the short_code from the full_url.
   def public_attributes
     JSON.parse(self.to_json(except:[:created_at,:id], methods:[:short_code]))
