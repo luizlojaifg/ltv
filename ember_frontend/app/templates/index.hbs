@@ -1,0 +1,69 @@
+{{page-title "Index"}}
+<main class="container mt-5">
+  <img src="assets/images/ltvLogo.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 150px; height: 150px; border: solid 1px; border-radius: 900px; position: relative; top: 20px; z-index: 1000" alt="">
+    <div class="bg-light p-5 rounded">
+      <h1 style="text-align: center">Short URL with Ltv</h1>
+      <p class="lead" style="text-align: center">Make your url shorter and be Happy!</p>
+
+      <div class="input-group mb-3">
+        <Input type="text" class="form-control" value="{{this.url}}" {{on "input" (fn this.updateUrl)}} placeholder="Write your Full URL right below and click in the check on the right!" aria-label="Your URL" aria-describedby="button-addon2"/>
+        <button class="btn btn-primary " type="button" id="button-addon2" {{on "click" (fn this.shrinkUrl this)}}  >Make it Shorter!</button>
+      </div>
+
+      {{#if this.convert_wrongly}}
+        <div class="alert alert-danger" role="alert" style="text-align: center"  >
+          {{#each this.errors as |message|}}
+            {{message}} <br>
+          {{/each}}
+        </div>
+      {{/if}}
+
+      {{#if this.convert_successfuly}}
+        <div class="alert alert-success" role="alert" style="text-align: center">
+          Your url was successfully shrunk! <br>
+          <a href="http://{{this.short_code}}">http://{{this.short_code}}</a>
+        </div>
+      {{/if}}
+
+
+    </div>
+<br>
+  <div class="p-5 rounded">
+    <h2 style="text-align: center">We've already shrunk a lot of them.</h2>
+    <p class="lead" style="text-align: center">Ltv's 100 most accessed Urls.</p>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Full URL</th>
+        <th scope="col">Short URL</th>
+        <th scope="col"  style="text-align: center">Compress Rate</th>
+        <th scope="col"  style="text-align: center">Times Accessed</th>
+        <th scope="col"  style="text-align: center">Last Time Accessed</th>
+      </tr>
+      </thead>
+      <tbody>
+
+        {{#each @model.dado as |shortUrl|}}
+          <tr>
+            <td data-bs-toggle="tooltip" data-bs-placement="top" title="{{shortUrl.full_url}}" >{{shortUrl.full_url_show}}</td>
+            <td>{{shortUrl.short_code}}</td>
+            <td style="text-align: center">{{shortUrl.compress_rate}}</td>
+            <td style="text-align: center">{{shortUrl.click_count}}</td>
+            <td style="text-align: center">{{shortUrl.updated_at}}</td>
+          </tr>
+        {{/each}}
+
+
+      </tbody>
+    </table>
+  </div>
+</main>
+<script>
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+</script>
+
+
+{{outlet}}
