@@ -32,14 +32,23 @@
     curl -I localhost:3000/abc
     
 
-#Interface 
+#Vue Interface 
     In rails/vue_frontend run yarn install to install node_modules
     To run the program run yarn watch 
     The interface can be accessed through vue/index.html    
     To develop the interface I used Vue and Quasar
     The code can be found in rails/vue_frontend/src/js 
     In components there is a comonent called ViewShortURL.vue
-    ViewShorURL has all interface's code   
+    ViewShorURL has all interface's code
+    
+#Ember Interface
+    The interface code is in rails/ember_frontend
+    It may be accessed through localhost:3000/ember. The interface is already built to production use
+    To use the interface is necessary to install ember the command is npm install -g ember-cli
+    To run the project in a implementation mode execute the command  ember s -proxy http://localhost:3000
+    To build the project is necessary execute the command ember build --environment=production
+
+           
 
 # Algorithm used to shorten url
 
